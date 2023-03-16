@@ -7,7 +7,7 @@ const CoursesList: FC<CoursesListTypes> = ({ courses }) => {
   return (
     <Stack
       component="ul"
-      gap={3}
+      gap={4}
       direction="row"
       flexWrap="wrap"
       justifyContent={{ xs: "center", md: "space-between" }}

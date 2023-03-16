@@ -1,10 +1,6 @@
 import { Box, CardMedia } from "@mui/material";
 import { FC } from "react";
 
-type PosterProps = {
-  img: string;
-};
-
 const Poster: FC<PosterProps> = ({ img }) => {
   return (
     <Box sx={styles.imgBox}>
@@ -13,7 +9,9 @@ const Poster: FC<PosterProps> = ({ img }) => {
   );
 };
 
-export default Poster;
+type PosterProps = {
+  img: string;
+};
 
 const styles = {
   imgBox: {
@@ -24,7 +22,8 @@ const styles = {
   img: {
     width: "100%",
     height: "100%",
-    objectFit: "contain",
-    objectPosition: "center",
+    objectFit: "cover",
   },
 };
+
+export default Poster;
