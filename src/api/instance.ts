@@ -1,14 +1,15 @@
 import axios, { AxiosInstance } from "axios";
 
-const url: string = process.env.REACT_APP_API_COURSES || "";
-const token: string = process.env.REACT_APP_API_TOKEN || "";
+const corsAnywhereUrl: string = 'https://cors-anywhere.herokuapp.com/';
+const url: string = process.env.REACT_APP_API_COURSES ?? "";
 
 const config: AxiosInstance = axios.create({
-    baseURL: url,
-    headers: {
-        Authorization: `Bearer ${token}`
-    },
-
+    baseURL: corsAnywhereUrl + url,
+    // headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Methods': 'GET',
+    //     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    // },
 });
 
 export default config;

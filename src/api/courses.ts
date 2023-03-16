@@ -1,8 +1,21 @@
+import { AxiosError, AxiosResponse } from 'axios'
 import axios from './instance'
+import { getToken } from './token';
 
+export const getCourses = async () => {
+    const token = await getToken()
 
-export const getCourses = () => {
-    const data = axios.get('')
-    console.log(data);
+    try {
+        const response: AxiosResponse = await axios.get('core/preview-courses', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        })
 
+        return response.data
+    }
+    catch (error) {
+        const axiosError = error as AxiosError;
+        throw axiosError.message;
+    }
 }
