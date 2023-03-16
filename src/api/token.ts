@@ -5,7 +5,7 @@ import customAxios from './instance'
 export const getToken = async (): Promise<void> => {
     try {
         const response: AxiosResponse = await customAxios.get('auth/anonymous?platform=subscriptions')
-        const token = response.data.token
+        const token: string = response.data.token
         config.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } catch (error) {
         const axiosError = error as AxiosError;
