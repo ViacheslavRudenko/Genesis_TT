@@ -3,15 +3,10 @@ import axios from './instance'
 import { getToken } from './token';
 
 export const getCourses = async () => {
-    const token = await getToken()
+    await getToken()
 
     try {
-        const response: AxiosResponse = await axios.get('core/preview-courses', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-        })
-
+        const response: AxiosResponse = await axios.get('core/preview-courses')
         return response.data
     }
     catch (error) {
