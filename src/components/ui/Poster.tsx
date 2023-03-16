@@ -1,11 +1,11 @@
-import { Box, CardMedia } from "@mui/material";
+import { CardMedia, Stack } from "@mui/material";
 import { FC } from "react";
 
 const Poster: FC<PosterProps> = ({ img }) => {
   return (
-    <Box sx={styles.imgBox}>
+    <Stack sx={styles.imgBox}>
       <CardMedia component="img" sx={styles.img} src={img} alt="poster-img" />
-    </Box>
+    </Stack>
   );
 };
 
@@ -15,14 +15,13 @@ type PosterProps = {
 
 const styles = {
   imgBox: {
-    width: "100%",
-    minWidth: "300px",
-    height: "250px",
+    height: { xs: "auto", md: "250px" },
+    justifyContent: "center",
+    alignItems: "center",
   },
   img: {
     width: "100%",
     height: "100%",
-    objectFit: "cover",
   },
 };
 
