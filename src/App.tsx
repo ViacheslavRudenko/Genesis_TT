@@ -1,8 +1,13 @@
 import { Container } from "@mui/material";
 import { FC } from "react";
+import CoursesPage from "./pages/CoursesPage/CoursesPage";
 
 const App: FC = () => {
-  return <Container maxWidth="lg" sx={styles.appContainer}></Container>;
+  return (
+    <Container maxWidth="lg" sx={styles.appContainer}>
+      <CoursesPage />
+    </Container>
+  );
 };
 
 const styles = {
