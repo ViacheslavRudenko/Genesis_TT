@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { FC } from "react";
-import CoursesPage from "./pages/CoursesPage/CoursesPage";
+import CoursesPage from "./pages/CoursesPage";
 
 const App: FC = () => {
   return (
