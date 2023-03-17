@@ -1,6 +1,4 @@
-import { Box, Container, Pagination, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
-import { log } from "console";
+import { Box, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { getCourses } from "../../api/courses";
 import CoursesList from "../../components/application/Courses/CoursesList";
