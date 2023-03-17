@@ -34,10 +34,18 @@ const LessonViewingPage: FC = () => {
     <Box width={"100%"}>
       {course && (
         <>
-          <Typography component="h6" align="center" fontWeight="bold">
+          <Typography
+            component="h6"
+            variant="h6"
+            paddingY={3}
+            align="center"
+            fontWeight="bold"
+          >
             {course.title}
           </Typography>
-          <Typography>{course.description}</Typography>
+          <Typography align="center" paddingY={1}>
+            {course.description}
+          </Typography>
           <LessonsList lessons={course.lessons} />
         </>
       )}

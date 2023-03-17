@@ -1,8 +1,9 @@
-import { Grid } from "@mui/material";
-import { FC } from "react";
+import { Grid, Box } from "@mui/material";
+import { FC, memo } from "react";
 import { LessonTypes } from "../../../types/course";
 import Btn from "../../ui/Btn";
 import VideoPlayer from "../../ui/VideoPlayer";
+import { convertMinutesToHours } from "./functions";
 
 const LessonsItem: FC<LessonsItemTypes> = ({
   lesson,
@@ -10,33 +11,40 @@ const LessonsItem: FC<LessonsItemTypes> = ({
   changeLesson,
 }) => {
   const { title, duration, status, previewImageLink, order } = lesson;
+  const videoSourceUrl: string = `${previewImageLink}/lesson-${order}.webp`;
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={3}>
-        Lesson № {lesson.order}
+    <Box component="li" sx={styles.container}>
+      <Grid container spacing={2}>
+        {/* Lesson number */}
+        <Grid item xs={3}>
+          Lesson № {lesson.order}
+        </Grid>
+
+        {/* Title */}
+        <Grid item xs={7} md={5}>
+          {title}
+        </Grid>
+
+        {/* Duration */}
+        <Grid item display={{ xs: "none", md: "flex" }} md={2}>
+          Duration: {convertMinutesToHours(duration)}
+        </Grid>
+
+        {/* Button */}
+        <Grid item xs={2}>
+          <Btn
+            click={() => changeLesson(lesson.order)}
+            disabled={status === "locked" || isLessonOpen ? true : false}
+          >
+            {status === "locked" ? "Locked" : isLessonOpen ? "Is open" : "Open"}
+          </Btn>
+        </Grid>
+
+        {/* Video */}
       </Grid>
-      <Grid item xs={7} sm={5}>
-        {title}
-      </Grid>
-      <Grid item display={{ xs: "none", sm: "flex" }} md={2}>
-        {duration} minutes
-      </Grid>
-      <Grid item xs={2}>
-        <Btn
-          click={() => {
-            changeLesson(lesson.order);
-          }}
-          disabled={status === "locked" ? true : false}
-        >
-          {status === "locked" ? "Locked" : "Open"}
-        </Btn>
-        {isLessonOpen && (
-          <VideoPlayer
-            videoSourceUrl={`${previewImageLink}/lesson-${order}.webp`}
-          />
-        )}
-      </Grid>
-    </Grid>
+      {isLessonOpen && <VideoPlayer videoSourceUrl={videoSourceUrl} />}
+    </Box>
   );
 };
 
@@ -46,4 +54,11 @@ type LessonsItemTypes = {
   changeLesson: (lesson: number) => void;
 };
 
-export default LessonsItem;
+const styles = {
+  container: {
+    listStyleType: "none",
+    padding: { xs: 1, sm: 0 },
+  },
+};
+
+export default memo(LessonsItem);
