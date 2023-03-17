@@ -24,11 +24,8 @@ const CoursesPage: FC = () => {
       .then((data: CourseTypes[]): void => {
         const maxLimit: number = 10;
         const startIndex: number = maxLimit * page - 10;
-        const newdata = data.sort(
-          (a: CourseTypes, b: CourseTypes) =>
-            Date.parse(a.launchDate) - Date.parse(b.launchDate)
-        );
-        setCourses(newdata.slice(startIndex, 10 + startIndex));
+        data.reverse();
+        setCourses(data.slice(startIndex, 10 + startIndex));
       })
       .catch((err: string): void => {
         setError(err);
