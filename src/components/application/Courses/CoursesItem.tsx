@@ -14,7 +14,6 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
     rating,
     containsLockedLessons,
   } = course;
-  console.log(course);
 
   return (
     <Grid
