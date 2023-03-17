@@ -11,7 +11,7 @@ const Btn: FC<BtnTypes> = ({ children, click, disabled = false }) => {
 
 type BtnTypes = {
   children: ReactNode;
-  click: () => void;
+  click?: () => void;
   disabled?: boolean;
 };
 

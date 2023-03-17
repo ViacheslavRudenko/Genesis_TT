@@ -10,6 +10,17 @@ export type MetaTypes = {
     courseVideoPreview: CourseVideoPreviewTypes;
 };
 
+export type LessonTypes = {
+    duration: number;
+    id: string;
+    link: string;
+    meta: null;
+    order: number;
+    previewImageLink: string;
+    status: string;
+    title: string;
+    type: string;
+}
 export type CourseTypes = {
     containsLockedLessons: boolean;
     description: string;
@@ -23,6 +34,7 @@ export type CourseTypes = {
     status: string;
     tags: string[];
     title: string;
+    lessons: LessonTypes[];
 };
 
 
