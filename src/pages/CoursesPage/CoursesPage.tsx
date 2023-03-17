@@ -20,6 +20,7 @@ const CoursesPage: FC = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getCourses()
       .then((data: CourseTypes[]): void => {
         const maxLimit: number = 10;
@@ -29,14 +30,11 @@ const CoursesPage: FC = () => {
       })
       .catch((err: string): void => {
         setError(err);
+      })
+      .finally((): void => {
+        setIsLoading(false);
       });
   }, [page]);
-
-  useEffect(() => {
-    if (!!courses || !!err) {
-      setIsLoading(false);
-    }
-  }, [courses, err]);
 
   if (isLoading) {
     return <LoadingSpinner />;
