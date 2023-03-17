@@ -48,8 +48,17 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
         {skills && <List title="Skills" array={skills} />}
       </Box>
       <Box sx={styles.btnContainer}>
-        <Link to={id} style={styles.link}>
-          <Btn>The lesson details</Btn>
+        <Link
+          to={id}
+          onClick={(e) => containsLockedLessons && e.preventDefault()}
+          style={{
+            cursor: containsLockedLessons ? "unset" : "pointer",
+            ...styles.link,
+          }}
+        >
+          <Btn click={() => {}} disabled={containsLockedLessons}>
+            The lesson{containsLockedLessons ? " is locked" : " details"}
+          </Btn>
         </Link>
       </Box>
     </Grid>
