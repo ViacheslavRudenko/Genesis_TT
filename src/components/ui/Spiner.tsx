@@ -1,7 +1,8 @@
 import { Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import { FC } from "react";
 
-const LoadingSpinner = () => {
+const LoadingSpinner: FC = () => {
   return (
     <Stack sx={style}>
       <CircularProgress color="primary" size={50} />

@@ -1,4 +1,4 @@
-import { Box, Grid, Rating, Typography } from "@mui/material";
+import { Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import { FC, memo } from "react";
 import { CourseTypes } from "../../../types/course";
 import List from "../../ui/List";
@@ -17,17 +17,23 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
     <Grid item xs={12} md={6} sx={styles.container} component="li" p={0}>
       <Poster img={previewImageLink + "/cover.webp"} />
       <Box paddingY={2}>
+        {/* Title */}
         <Typography component="h6" fontWeight="bold" sx={styles.title}>
           {title}
         </Typography>
+        {/* Rating */}
+        <Stack alignItems="flex-end">
+          <Rating defaultValue={rating} precision={0.5} />
+        </Stack>
+        {/* Number of lessons */}
         <Typography>
           <Typography fontWeight="bold" component="span">
-            Number of lessons:
+            Number of lessons: &nbsp;
           </Typography>
           {lessonsCount}
         </Typography>
+        {/* Skills */}
         {skills && <List title="Skills" array={skills} />}
-        <Rating defaultValue={rating} precision={0.5} />
       </Box>
     </Grid>
   );
@@ -38,7 +44,10 @@ type CoursesItemTypes = {
 };
 
 const styles = {
-  title: { textAlign: "center", paddingBottom: "10px" },
+  title: {
+    textAlign: "center",
+    paddingBottom: "10px",
+  },
   container: {
     listStyleType: "none",
   },

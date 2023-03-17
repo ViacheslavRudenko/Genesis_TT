@@ -4,9 +4,9 @@ import { FC, useEffect, useState } from "react";
 const CustomAlert: FC<AlertTypes> = ({ text, type = "error" }) => {
   const [open, setOpen] = useState(true);
 
-  useEffect(() => {
-    open && autoClose();
-  }, [open]);
+  // useEffect(() => {
+  //   open && autoClose();
+  // }, [open]);
 
   const autoClose = (): void => {
     setInterval(() => {

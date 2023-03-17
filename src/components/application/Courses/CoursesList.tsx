@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material";
+import { Grid } from "@mui/material";
 import { FC } from "react";
 import { CourseTypes } from "../../../types/course";
 import CoursesItem from "./CoursesItem";
