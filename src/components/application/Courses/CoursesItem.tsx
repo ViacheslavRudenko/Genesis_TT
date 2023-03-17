@@ -1,5 +1,6 @@
 import { Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import { FC, memo } from "react";
+import { Link } from "react-router-dom";
 import { CourseTypes } from "../../../types/course";
 import Btn from "../../ui/Btn";
 import List from "../../ui/List";
@@ -7,6 +8,7 @@ import Poster from "../../ui/Poster";
 
 const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
   const {
+    id,
     previewImageLink,
     title,
     lessonsCount,
@@ -46,9 +48,18 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
         {skills && <List title="Skills" array={skills} />}
       </Box>
       <Box sx={styles.btnContainer}>
-        <Btn click={() => {}} disabled={containsLockedLessons}>
-          The lesson{containsLockedLessons ? " is locked" : " details"}
-        </Btn>
+        <Link
+          to={id}
+          onClick={(e) => containsLockedLessons && e.preventDefault()}
+          style={{
+            cursor: containsLockedLessons ? "unset" : "pointer",
+            ...styles.link,
+          }}
+        >
+          <Btn click={() => {}} disabled={containsLockedLessons}>
+            The lesson{containsLockedLessons ? " is locked" : " details"}
+          </Btn>
+        </Link>
       </Box>
     </Grid>
   );
@@ -73,6 +84,9 @@ const styles = {
     bottom: "0",
     width: "100%",
     textAlign: "center",
+  },
+  link: {
+    textDecoration: "none",
   },
 };
 

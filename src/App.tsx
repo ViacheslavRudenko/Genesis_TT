@@ -1,11 +1,11 @@
 import { Container } from "@mui/material";
 import { FC } from "react";
-import CoursesPage from "./pages/CoursesPage";
+import Routing from "./components/application/Routing";
 
 const App: FC = () => {
   return (
     <Container maxWidth="lg" sx={styles.appContainer}>
-      <CoursesPage />
+      <Routing />
     </Container>
   );
 };
