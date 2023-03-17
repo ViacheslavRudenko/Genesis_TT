@@ -44,7 +44,7 @@ const styles = {
     mr: { xs: 0, md: 3 },
   },
   videoBox: {
-    height: { xs: 150, sm: 250, md: 400 },
+    width: "100%",
   },
 };
 

@@ -10,7 +10,7 @@ const LessonsItem: FC<LessonsItemTypes> = ({
   isLessonOpen,
   changeLesson,
 }) => {
-  const { title, duration, status, previewImageLink, order } = lesson;
+  const { title, duration, status, previewImageLink, order, link } = lesson;
   const videoSourceUrl: string = `${previewImageLink}/lesson-${order}.webp`;
 
   return (
@@ -43,7 +43,7 @@ const LessonsItem: FC<LessonsItemTypes> = ({
 
         {/* Video */}
       </Grid>
-      {isLessonOpen && <VideoPlayer videoSourceUrl={videoSourceUrl} />}
+      {isLessonOpen && <VideoPlayer videoSourceUrl={link} />}
     </Box>
   );
 };
