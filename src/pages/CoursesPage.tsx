@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import { getCourses } from "../../api/courses";
-import CoursesList from "../../components/application/Courses/CoursesList";
-import CustomAlert from "../../components/ui/Alert";
-import CustomPagination from "../../components/ui/Pagintion";
-import LoadingSpinner from "../../components/ui/Spiner";
-import { CourseTypes } from "../../types/course";
+import { getCourses } from "../api/courses";
+import CoursesList from "../components/application/Courses/CoursesList";
+import CustomAlert from "../components/ui/Alert";
+import CustomPagination from "../components/ui/Pagintion";
+import LoadingSpinner from "../components/ui/Spiner";
+import { CourseTypes } from "../types/course";
 
 const CoursesPage: FC = () => {
   const [courses, setCourses] = useState<CourseTypes[]>();
