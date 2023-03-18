@@ -15,7 +15,7 @@ const CustomAlert: FC<AlertTypes> = ({ text, type = "error" }) => {
   };
 
   return (
-    <Box position="absolute" right={15} bottom={0}>
+    <Box position="fixed" zIndex={3} right={15} bottom={0}>
       <Collapse in={open}>
         <Alert
           severity={type}
