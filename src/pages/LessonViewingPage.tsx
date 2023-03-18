@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getCourse } from "../api/courses";
@@ -44,10 +44,15 @@ const LessonViewingPage: FC = () => {
         <>
           <CourseDetails course={course} />
           {lessonVideoData && (
-            <VideoPlayer
-              videoSourceUrl={lessonVideoData.link}
-              lessonId={lessonVideoData.id}
-            />
+            <Box paddingY={4}>
+              <Typography textAlign="center" fontWeight="bold">
+                The video of the lesson {lessonVideoData.order} is playing
+              </Typography>
+              <VideoPlayer
+                videoSourceUrl={lessonVideoData.link}
+                lessonId={lessonVideoData.id}
+              />
+            </Box>
           )}
           <LessonsList
             lessons={course.lessons}

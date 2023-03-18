@@ -38,7 +38,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   };
 
   return (
-    <Box sx={styles.box}>
+    <>
       <Box
         sx={styles.videoBox}
         component="video"
@@ -48,7 +48,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         muted
       ></Box>
       {err && <CustomAlert text={err} />}
-    </Box>
+    </>
   );
 };
 
@@ -58,11 +58,6 @@ type VideoPlayerTypes = {
 };
 
 const styles = {
-  box: {
-    display: "flex",
-    justifyContent: "center",
-    paddingY: 4,
-  },
   videoBox: {
     width: "100%",
   },
