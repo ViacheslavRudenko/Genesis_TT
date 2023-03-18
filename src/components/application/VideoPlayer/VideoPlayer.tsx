@@ -1,10 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
 import Hls from "hls.js";
-import { FC, useEffect, useRef, useState } from "react";
-import CustomAlert from "../../ui/Alert";
+import { FC, useContext, useEffect, useRef, useState } from "react";
+import Context from "../../../context";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
-  const [err, setErr] = useState<string>("");
+  const { addErr } = useContext(Context);
   const [loaded, setLoaded] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
@@ -25,7 +25,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         });
       });
       hls.on(Hls.Events.ERROR, (name, data) => {
-        setErr(`${name}: ${data.type}`);
+        addErr(`${name}: ${data.type}`);
       });
     } else if (videoRef.current?.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = videoSourceUrl;
@@ -60,7 +60,6 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
           <CircularProgress />
         </Box>
       )}
-      {err && <CustomAlert text={err} />}
     </>
   );
 };

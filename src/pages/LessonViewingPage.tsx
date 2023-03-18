@@ -1,18 +1,18 @@
 import { Box, Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getCourse } from "../api/courses";
 import CourseDetails from "../components/application/Courses/CourseDetail";
 import LessonsList from "../components/application/Lesson/LessonsList";
-import CustomAlert from "../components/ui/Alert";
 import LoadingSpinner from "../components/ui/Spiner";
 import VideoPlayer from "../components/application/VideoPlayer/VideoPlayer";
 import { CourseTypes, LessonTypes } from "../types/course";
+import Context from "../context";
 
 const LessonViewingPage: FC = () => {
   const { id } = useParams();
   const [course, setCourse] = useState<CourseTypes>();
-  const [err, setError] = useState<string>("");
+  const { addErr } = useContext(Context);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [lessonVideoData, setLessonVideoData] = useState<LessonTypes>();
 
@@ -22,7 +22,7 @@ const LessonViewingPage: FC = () => {
         setCourse(data);
       })
       .catch((err: string): void => {
-        setError(err);
+        addErr(err);
       })
       .finally((): void => {
         setIsLoading(false);
@@ -59,7 +59,6 @@ const LessonViewingPage: FC = () => {
           />
         </>
       )}
-      {err && <CustomAlert text={err} />}
     </Box>
   );
 };

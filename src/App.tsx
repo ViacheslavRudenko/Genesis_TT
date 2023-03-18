@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { FC, useState } from "react";
-
+import AlertList from "./components/application/AlertList";
 import Routing from "./components/application/Routing";
 import Context from "./context";
 
@@ -15,6 +15,7 @@ const App: FC = () => {
     <Context.Provider value={{ addErr }}>
       <Container maxWidth="lg" sx={styles.appContainer}>
         <Routing />
+        <AlertList err={err} />
       </Container>
     </Context.Provider>
   );
