@@ -14,7 +14,9 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl }) => {
       hls.loadSource(videoSourceUrl);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play();
+        video.addEventListener("canplaythrough", () => {
+          video.play();
+        });
       });
       hls.on(Hls.Events.ERROR, (name, data) => {
         setErr(`${name}: ${data.type}`);
@@ -26,7 +28,13 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl }) => {
 
   return (
     <Box sx={styles.box}>
-      <Box sx={styles.videoBox} component="video" ref={videoRef} controls></Box>
+      <Box
+        sx={styles.videoBox}
+        component="video"
+        ref={videoRef}
+        controls
+        muted
+      ></Box>
       {err && <CustomAlert text={err} />}
     </Box>
   );
@@ -41,7 +49,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     paddingY: 4,
-    mr: { xs: 0, md: 3 },
   },
   videoBox: {
     width: "100%",
