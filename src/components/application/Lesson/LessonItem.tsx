@@ -75,8 +75,13 @@ const styles = {
   },
   alertBox: {
     position: "absolute",
-    top: 70,
-    right: 150,
+    top: 0,
+    bottom: 80,
+    left: 0,
+    right: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   hideAlertBox: {
     display: "none",
