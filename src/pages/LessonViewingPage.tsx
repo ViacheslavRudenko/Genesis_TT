@@ -44,7 +44,10 @@ const LessonViewingPage: FC = () => {
         <>
           <CourseDetails course={course} />
           {lessonVideoData && (
-            <VideoPlayer videoSourceUrl={lessonVideoData.link} />
+            <VideoPlayer
+              videoSourceUrl={lessonVideoData.link}
+              lessonId={lessonVideoData.id}
+            />
           )}
           <LessonsList
             lessons={course.lessons}
