@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getCourse } from "../api/courses";
 import CourseDetails from "../components/application/Courses/CourseDetail";
 import LessonsList from "../components/application/Lesson/LessonsList";
 import CustomAlert from "../components/ui/Alert";
-import Btn from "../components/ui/Btn";
 import LoadingSpinner from "../components/ui/Spiner";
 import VideoPlayer from "../components/application/VideoPlayer/VideoPlayer";
 import { CourseTypes, LessonTypes } from "../types/course";
@@ -60,11 +59,6 @@ const LessonViewingPage: FC = () => {
           />
         </>
       )}
-      <Box pb={5}>
-        <Link to={"/"} style={{ textDecoration: "none" }}>
-          <Btn> Go back to courses list</Btn>
-        </Link>
-      </Box>
       {err && <CustomAlert text={err} />}
     </Box>
   );

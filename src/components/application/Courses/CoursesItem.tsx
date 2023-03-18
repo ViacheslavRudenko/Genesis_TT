@@ -1,8 +1,7 @@
 import { Box, Grid, Rating, Stack, Typography } from "@mui/material";
 import { FC, memo } from "react";
-import { Link } from "react-router-dom";
 import { CourseTypes } from "../../../types/course";
-import Btn from "../../ui/Btn";
+import CustomLink from "../../ui/Link";
 import List from "../../ui/List";
 import Poster from "../../ui/Poster";
 
@@ -47,9 +46,7 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
         {skills && <List title="Skills" array={skills} />}
       </Box>
       <Box sx={styles.btnContainer}>
-        <Link to={id} style={styles.link}>
-          <Btn>The lesson details</Btn>
-        </Link>
+        <CustomLink link={id}>The lesson details</CustomLink>
       </Box>
     </Grid>
   );
@@ -66,7 +63,6 @@ const styles = {
   },
   container: {
     listStyleType: "none",
-
     paddingBottom: 2,
   },
   btnContainer: {
@@ -74,9 +70,6 @@ const styles = {
     bottom: "0",
     width: "100%",
     textAlign: "center",
-  },
-  link: {
-    textDecoration: "none",
   },
 };
 
