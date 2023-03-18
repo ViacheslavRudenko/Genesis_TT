@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import Hls from "hls.js";
 import { FC, useEffect, useRef, useState } from "react";
-import CustomAlert from "./Alert";
+import CustomAlert from "../../ui/Alert";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   const [err, setErr] = useState<string>("");
@@ -30,7 +30,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     } else if (videoRef.current?.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = videoSourceUrl;
     }
-  }, [videoSourceUrl]);
+  }, [videoSourceUrl, lessonId]);
 
   const handleTimeUpdate = (): void => {
     const video = videoRef.current;

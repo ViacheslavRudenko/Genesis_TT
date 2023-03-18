@@ -7,7 +7,7 @@ import LessonsList from "../components/application/Lesson/LessonsList";
 import CustomAlert from "../components/ui/Alert";
 import Btn from "../components/ui/Btn";
 import LoadingSpinner from "../components/ui/Spiner";
-import VideoPlayer from "../components/ui/VideoPlayer";
+import VideoPlayer from "../components/application/VideoPlayer/VideoPlayer";
 import { CourseTypes, LessonTypes } from "../types/course";
 
 const LessonViewingPage: FC = () => {
