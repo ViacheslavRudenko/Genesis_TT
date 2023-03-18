@@ -41,16 +41,16 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
   return (
     <>
-      {loaded ? (
-        <Box
-          sx={styles.videoBox}
-          component="video"
-          ref={videoRef}
-          onTimeUpdate={handleTimeUpdate}
-          controls
-          muted
-        ></Box>
-      ) : (
+      <Box
+        sx={styles.videoBox}
+        component="video"
+        ref={videoRef}
+        onTimeUpdate={handleTimeUpdate}
+        controls
+        muted
+        style={{ display: loaded ? "block" : "none" }}
+      ></Box>
+      {!loaded && (
         <Box sx={styles.loadingBox}>
           <CircularProgress />
         </Box>
