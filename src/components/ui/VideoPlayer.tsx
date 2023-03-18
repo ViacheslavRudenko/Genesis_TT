@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Hls from "hls.js";
 import { FC, useEffect, useRef, useState } from "react";
 import CustomAlert from "./Alert";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   const [err, setErr] = useState<string>("");
+  const [loaded, setLoaded] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.addEventListener("canplaythrough", () => {
           video.play();
+          setLoaded(true);
         });
       });
       hls.on(Hls.Events.ERROR, (name, data) => {
@@ -39,14 +41,20 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
   return (
     <>
-      <Box
-        sx={styles.videoBox}
-        component="video"
-        ref={videoRef}
-        onTimeUpdate={handleTimeUpdate}
-        controls
-        muted
-      ></Box>
+      {loaded ? (
+        <Box
+          sx={styles.videoBox}
+          component="video"
+          ref={videoRef}
+          onTimeUpdate={handleTimeUpdate}
+          controls
+          muted
+        ></Box>
+      ) : (
+        <Box sx={styles.loadingBox}>
+          <CircularProgress />
+        </Box>
+      )}
       {err && <CustomAlert text={err} />}
     </>
   );
@@ -60,6 +68,13 @@ type VideoPlayerTypes = {
 const styles = {
   videoBox: {
     width: "100%",
+  },
+  loadingBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "50vh",
   },
 };
 
