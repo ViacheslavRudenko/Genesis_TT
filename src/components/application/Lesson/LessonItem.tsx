@@ -19,7 +19,7 @@ const LessonsItem: FC<LessonsItemTypes> = ({
       xs={12}
       md={6}
       sx={styles.container}
-      onClick={() => changeLesson(lesson.order)}
+      onClick={() => status === "unlocked" && changeLesson(lesson.order)}
     >
       <Box
         position="relative"
