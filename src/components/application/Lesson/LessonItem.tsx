@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, CircularProgress } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import { FC, memo } from "react";
 import { LessonTypes } from "../../../types/course";
 import Poster from "../../ui/Poster";
@@ -49,7 +49,7 @@ const LessonsItem: FC<LessonsItemTypes> = ({
           </Grid>
         </Grid>
         <Box sx={isLessonOpen ? styles.alertBox : styles.hideAlertBox}>
-          <CircularProgress color="success" size={100} />
+          <Typography sx={styles.playingBox}>Playing...</Typography>
         </Box>
       </Box>
     </Grid>
@@ -85,6 +85,12 @@ const styles = {
   },
   hideAlertBox: {
     display: "none",
+  },
+  playingBox: {
+    background: "white",
+    padding: 2,
+    width: "100%",
+    textAlign: "center",
   },
 };
 
