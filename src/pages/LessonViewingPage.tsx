@@ -1,18 +1,21 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getCourse } from "../api/courses";
+import CourseDetails from "../components/application/Courses/CourseDetail";
 import LessonsList from "../components/application/Lesson/LessonsList";
 import CustomAlert from "../components/ui/Alert";
 import Btn from "../components/ui/Btn";
 import LoadingSpinner from "../components/ui/Spiner";
-import { CourseTypes } from "../types/course";
+import VideoPlayer from "../components/ui/VideoPlayer";
+import { CourseTypes, LessonTypes } from "../types/course";
 
 const LessonViewingPage: FC = () => {
   const { id } = useParams();
   const [course, setCourse] = useState<CourseTypes>();
   const [err, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [lessonVideoData, setLessonVideoData] = useState<LessonTypes>();
 
   useEffect(() => {
     getCourse(id)
@@ -27,27 +30,26 @@ const LessonViewingPage: FC = () => {
       });
   }, []);
 
+  const setLessonForVideo = (lesson: LessonTypes | undefined): void => {
+    lesson && setLessonVideoData(lesson);
+  };
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
   return (
-    <Box>
+    <Box paddingY={3}>
       {course && (
         <>
-          <Typography
-            component="h6"
-            variant="h6"
-            paddingY={3}
-            align="center"
-            fontWeight="bold"
-          >
-            {course.title}
-          </Typography>
-          <Typography align="center" paddingY={1}>
-            {course.description}
-          </Typography>
-          <LessonsList lessons={course.lessons} />
+          <CourseDetails course={course} />
+          {lessonVideoData && (
+            <VideoPlayer videoSourceUrl={lessonVideoData.link} />
+          )}
+          <LessonsList
+            lessons={course.lessons}
+            setLessonForVideo={setLessonForVideo}
+          />
         </>
       )}
       <Box pb={5}>

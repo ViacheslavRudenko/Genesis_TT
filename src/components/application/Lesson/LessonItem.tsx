@@ -1,8 +1,7 @@
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography, CircularProgress } from "@mui/material";
 import { FC, memo } from "react";
 import { LessonTypes } from "../../../types/course";
-import Btn from "../../ui/Btn";
-import VideoPlayer from "../../ui/VideoPlayer";
+import Poster from "../../ui/Poster";
 import { convertMinutesToHours } from "./functions";
 
 const LessonsItem: FC<LessonsItemTypes> = ({
@@ -11,40 +10,49 @@ const LessonsItem: FC<LessonsItemTypes> = ({
   changeLesson,
 }) => {
   const { title, duration, status, previewImageLink, order, link } = lesson;
-  const videoSourceUrl: string = `${previewImageLink}/lesson-${order}.webp`;
+  const imgSourceUrl: string = `${previewImageLink}/lesson-${order}.webp`;
 
   return (
-    <Box component="li" sx={styles.container}>
-      <Grid container spacing={2}>
-        {/* Lesson number */}
-        <Grid item xs={3}>
-          Lesson № {lesson.order}
-        </Grid>
+    <Grid
+      item
+      component="li"
+      xs={12}
+      md={6}
+      sx={styles.container}
+      onClick={() => changeLesson(lesson.order)}
+    >
+      <Box
+        position="relative"
+        sx={
+          status === "locked" || isLessonOpen
+            ? styles.deprecatedBox
+            : styles.undeprecatedBox
+        }
+      >
+        <Poster img={imgSourceUrl} />
+        <Grid container spacing={2} pt={1}>
+          {/* Lesson number */}
+          <Grid item xs={3}>
+            <Typography fontWeight="bold">Lesson № {lesson.order}</Typography>
+          </Grid>
 
-        {/* Title */}
-        <Grid item xs={7} md={5}>
-          {title}
-        </Grid>
+          {/* Title */}
+          <Grid item xs={9}>
+            <Typography textAlign="end"> {title}</Typography>
+          </Grid>
 
-        {/* Duration */}
-        <Grid item display={{ xs: "none", md: "flex" }} md={2}>
-          Duration: {convertMinutesToHours(duration)}
+          {/* Duration */}
+          <Grid item xs={12}>
+            <Typography textAlign="center">
+              Duration: {convertMinutesToHours(duration)}
+            </Typography>
+          </Grid>
         </Grid>
-
-        {/* Button */}
-        <Grid item xs={2}>
-          <Btn
-            click={() => changeLesson(lesson.order)}
-            disabled={status === "locked" || isLessonOpen ? true : false}
-          >
-            {status === "locked" ? "Locked" : isLessonOpen ? "Is open" : "Open"}
-          </Btn>
-        </Grid>
-
-        {/* Video */}
-      </Grid>
-      {isLessonOpen && <VideoPlayer videoSourceUrl={link} />}
-    </Box>
+        <Box sx={isLessonOpen ? styles.alertBox : styles.hideAlertBox}>
+          <CircularProgress color="success" size={100} />
+        </Box>
+      </Box>
+    </Grid>
   );
 };
 
@@ -57,7 +65,21 @@ type LessonsItemTypes = {
 const styles = {
   container: {
     listStyleType: "none",
-    padding: { xs: 1, sm: 0 },
+  },
+  deprecatedBox: {
+    opacity: 0.5,
+    cursor: "unset",
+  },
+  undeprecatedBox: {
+    cursor: "pointer",
+  },
+  alertBox: {
+    position: "absolute",
+    top: 70,
+    right: 150,
+  },
+  hideAlertBox: {
+    display: "none",
   },
 };
 

@@ -1,10 +1,15 @@
-import { Container } from "@mui/material";
-import { FC, useState } from "react";
+import { Grid } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 import { LessonTypes } from "../../../types/course";
 import LessonsItem from "./LessonItem";
 
-const LessonsList: FC<LessonsListTypes> = ({ lessons }) => {
+const LessonsList: FC<LessonsListTypes> = ({ lessons, setLessonForVideo }) => {
   const [openLesson, setOpenLesson] = useState<number>(1);
+
+  useEffect(() => {
+    const openLesonData = lessons.find((item) => item.order === openLesson);
+    setLessonForVideo(openLesonData);
+  }, [openLesson]);
 
   const changeOpenLesson = (lesson: number): void => {
     setOpenLesson(lesson);
@@ -13,7 +18,7 @@ const LessonsList: FC<LessonsListTypes> = ({ lessons }) => {
   const newLessArr = lessons.sort((a, b) => a.order - b.order);
 
   return (
-    <Container component="ul" maxWidth="md">
+    <Grid container spacing={3} component="ul" justifyContent="center" p={0}>
       {newLessArr.map((lesson: LessonTypes) => (
         <LessonsItem
           lesson={lesson}
@@ -22,12 +27,13 @@ const LessonsList: FC<LessonsListTypes> = ({ lessons }) => {
           changeLesson={changeOpenLesson}
         />
       ))}
-    </Container>
+    </Grid>
   );
 };
 
 type LessonsListTypes = {
   lessons: LessonTypes[];
+  setLessonForVideo: (lesson: LessonTypes | undefined) => void;
 };
 
 export default LessonsList;
