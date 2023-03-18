@@ -7,6 +7,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   const [err, setErr] = useState<string>("");
   const [loaded, setLoaded] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   useEffect(() => {
     const savedTime = localStorage.getItem(`lesson-${lessonId}-time`);
@@ -31,24 +32,28 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     }
   }, [videoSourceUrl]);
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = (): void => {
     const video = videoRef.current;
     if (video) {
       const currentTime = Math.floor(video.currentTime);
       localStorage.setItem(`lesson-${lessonId}-time`, `${currentTime}`);
     }
   };
+  const handleFullScreen = (): void => {
+    setIsFullScreen(!isFullScreen);
+  };
 
   return (
     <>
       <Box
-        sx={styles.videoBox}
+        sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
         component="video"
         ref={videoRef}
         onTimeUpdate={handleTimeUpdate}
         controls
         muted
         style={{ display: loaded ? "block" : "none" }}
+        onClick={handleFullScreen}
       ></Box>
       {!loaded && (
         <Box sx={styles.loadingBox}>
@@ -66,8 +71,18 @@ type VideoPlayerTypes = {
 };
 
 const styles = {
-  videoBox: {
+  smallVideoBox: {
+    position: "fixed",
+    bottom: "30px",
+    right: "30px",
+    zIndex: 1,
+    width: "300px",
+    height: "auto",
+    cursor: "zoom-in",
+  },
+  fullVideoBox: {
     width: "100%",
+    cursor: "zoom-out",
   },
   loadingBox: {
     display: "flex",
