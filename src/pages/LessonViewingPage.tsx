@@ -28,7 +28,7 @@ const LessonViewingPage: FC = () => {
       .finally((): void => {
         setIsLoading(false);
       });
-  }, []);
+  }, [id]);
 
   const setLessonForVideo = (lesson: LessonTypes | undefined): void => {
     lesson && setLessonVideoData(lesson);
