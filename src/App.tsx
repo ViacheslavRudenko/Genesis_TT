@@ -1,12 +1,22 @@
 import { Container } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
+
 import Routing from "./components/application/Routing";
+import Context from "./context";
 
 const App: FC = () => {
+  const [err, setErr] = useState<string[]>([]);
+
+  const addErr = (error: string): void => {
+    setErr([error, ...err]);
+  };
+
   return (
-    <Container maxWidth="lg" sx={styles.appContainer}>
-      <Routing />
-    </Container>
+    <Context.Provider value={{ addErr }}>
+      <Container maxWidth="lg" sx={styles.appContainer}>
+        <Routing />
+      </Container>
+    </Context.Provider>
   );
 };
 
