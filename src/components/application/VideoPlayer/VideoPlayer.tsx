@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Hls from "hls.js";
+import Hls, { ErrorData, Events } from "hls.js";
 import {
   FC,
   KeyboardEvent,
@@ -22,18 +22,18 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   useEffect(() => {
     const savedTime = localStorage.getItem(`lesson-${lessonId}-time`);
     const startTime = savedTime ? parseInt(savedTime, 10) : 0;
+    const audio = new Audio();
+    const audioContext = new AudioContext();
+    const source = audioContext.createMediaElementSource(audio);
+    source.connect(audioContext.destination);
 
     if (videoRef.current && Hls.isSupported()) {
       const video = videoRef.current;
       const hls = new Hls({ startPosition: lessonId ? startTime : 0 });
       hls.loadSource(videoSourceUrl);
       hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        startVideoToPlay(video);
-      });
-      hls.on(Hls.Events.ERROR, (name, data) => {
-        setVideoErr(name, data.type);
-      });
+      hls.on(Hls.Events.MANIFEST_PARSED, startVideoToPlay);
+      hls.on(Hls.Events.ERROR, setVideoErr);
     } else if (videoRef.current?.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = videoSourceUrl;
     }
@@ -46,15 +46,18 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   }, [videoSpeed]);
 
   //Func that starts video
-  const startVideoToPlay = (video: HTMLVideoElement): void => {
-    video.addEventListener("canplaythrough", () => {
-      video.play();
-      setLoaded(true);
-    });
+  const startVideoToPlay = (): void => {
+    if (videoRef.current) {
+      const video = videoRef.current;
+      video.addEventListener("canplaythrough", () => {
+        video.play();
+        setLoaded(true);
+      });
+    }
   };
   //Func that sets fetching err
-  const setVideoErr = (name: string, err: string): void => {
-    addErr(`${name}: ${err}`);
+  const setVideoErr = (event: Events.ERROR, data: ErrorData): void => {
+    addErr(`${event}: ${data.type}`);
   };
 
   //Func that saves the progress of watching videos and course lessons
@@ -102,7 +105,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         style={{ display: loaded ? "block" : "none" }}
         onClick={handleFullScreen}
         controls
-        muted
+        // muted
       />
       {lessonId && <VideoSpeedInfo videoSpeed={videoSpeed} />}
       {!loaded && <LoadingSpinner />}
