@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
+import { ErrorForAlertTypes } from "../../types/context";
 import CustomAlert from "../ui/Alert";
 
 const AlertList: FC<AlertListTypes> = ({ err }) => {
@@ -11,12 +12,12 @@ const AlertList: FC<AlertListTypes> = ({ err }) => {
       width="fit-content"
       right={10}
       top={10}
-      direction="column"
+      direction="column-reverse"
     >
       {err &&
-        err.map((el: string) => (
+        err.map((el: ErrorForAlertTypes) => (
           <Grid item key={Math.random()}>
-            <CustomAlert text={el} />
+            <CustomAlert text={el.text} type={el.type} />
           </Grid>
         ))}
     </Grid>
@@ -24,7 +25,7 @@ const AlertList: FC<AlertListTypes> = ({ err }) => {
 };
 
 type AlertListTypes = {
-  err: string[];
+  err: ErrorForAlertTypes[];
 };
 
 export default AlertList;
