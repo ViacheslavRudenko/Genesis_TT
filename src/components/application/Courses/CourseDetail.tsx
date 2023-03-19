@@ -4,7 +4,7 @@ import { CourseTypes } from "../../../types/course";
 
 const CourseDetails: FC<CourseDetailsTypes> = ({ course }) => {
   return (
-    <Box sx={styles.box} p={2}>
+    <Box sx={styles.box}>
       <Typography component="h6" variant="h6" align="center" fontWeight="bold">
         {course.title}
       </Typography>
@@ -24,7 +24,7 @@ const styles = {
     border: "1px solid grey",
     borderRadius: "20px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-    paddingY: 3,
+    padding: 2,
   },
 };
 

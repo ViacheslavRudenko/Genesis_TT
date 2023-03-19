@@ -19,27 +19,9 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
   } = course;
 
   return (
-    <Grid
-      item
-      xs={12}
-      md={6}
-      sx={styles.container}
-      component="li"
-      p={0}
-      position="relative"
-    >
+    <Grid item xs={12} md={6} sx={styles.container} component="li" p={0}>
       <Box
-        sx={{
-          height: {
-            xs: "20vh",
-            sm: "50vh",
-            md: "30vh",
-            lg: "35vh",
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-          },
-        }}
+        sx={styles.movieBox}
         onMouseOver={() => setIsHover(true)}
         onMouseOut={() => setIsHover(false)}
       >
@@ -87,12 +69,24 @@ const styles = {
   container: {
     listStyleType: "none",
     paddingBottom: 2,
+    position: "relative",
   },
   btnContainer: {
     position: "absolute",
     bottom: "0",
     width: "100%",
     textAlign: "center",
+  },
+  movieBox: {
+    height: {
+      xs: "20vh",
+      sm: "50vh",
+      md: "30vh",
+      lg: "35vh",
+      display: "flex",
+      justifyContent: "center",
+      alignContent: "center",
+    },
   },
 };
 
