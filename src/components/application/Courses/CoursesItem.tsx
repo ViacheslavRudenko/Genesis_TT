@@ -25,7 +25,9 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
       p={0}
       position="relative"
     >
-      <Poster img={previewImageLink + "/cover.webp"} />
+      <Box height={300}>
+        <Poster img={previewImageLink + "/cover.webp"} />
+      </Box>
       <Box paddingY={2}>
         {/* Title */}
         <Typography component="h6" fontWeight="bold" sx={styles.title}>
