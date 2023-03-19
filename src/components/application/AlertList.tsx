@@ -6,7 +6,7 @@ const AlertList: FC<AlertListTypes> = ({ err }) => {
   return (
     <Grid
       container
-      position="absolute"
+      position="fixed"
       zIndex={3}
       width="fit-content"
       right={10}
