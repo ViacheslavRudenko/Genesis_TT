@@ -13,7 +13,7 @@ const LoadingSpinner: FC = () => {
 const style = {
   justifyContent: "center",
   alignItems: "center",
-  position: "fixed",
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
