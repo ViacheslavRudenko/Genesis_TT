@@ -10,6 +10,7 @@ import {
 } from "react";
 import Context from "../../../context";
 import LoadingSpinner from "../../ui/Spiner";
+import VideoNotAvailable from "./VideoNotAvailable";
 import VideoSpeedInfo from "./VideoSpeedInfo";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
@@ -96,29 +97,26 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     }
   };
 
-  return (
+  return videoSourceUrl ? (
     <Box position="relative">
-      <>
-        <Box
-          component="video"
-          ref={videoRef}
-          onKeyDown={handleKeyDown}
-          sx={isPlayerOpen ? styles.smallVideoBox : styles.fullVideoBox}
-          onTimeUpdate={handleTimeUpdate}
-          style={{
-            display: loaded ? "block" : "none",
-          }}
-          onClick={handleFullScreen}
-          controls
-          muted
-        />
-        {lessonId && !isPlayerOpen && (
-          <VideoSpeedInfo videoSpeed={videoSpeed} />
-        )}
-      </>
-
+      <Box
+        component="video"
+        ref={videoRef}
+        onKeyDown={handleKeyDown}
+        sx={isPlayerOpen ? styles.smallVideoBox : styles.fullVideoBox}
+        onTimeUpdate={handleTimeUpdate}
+        style={{
+          display: loaded ? "block" : "none",
+        }}
+        onClick={handleFullScreen}
+        controls
+        muted
+      />
+      {lessonId && !isPlayerOpen && <VideoSpeedInfo videoSpeed={videoSpeed} />}
       {!loaded && <LoadingSpinner />}
     </Box>
+  ) : (
+    <VideoNotAvailable />
   );
 };
 
