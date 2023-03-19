@@ -22,10 +22,6 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   useEffect(() => {
     const savedTime = localStorage.getItem(`lesson-${lessonId}-time`);
     const startTime = savedTime ? parseInt(savedTime, 10) : 0;
-    const audio = new Audio();
-    const audioContext = new AudioContext();
-    const source = audioContext.createMediaElementSource(audio);
-    source.connect(audioContext.destination);
 
     if (videoRef.current && Hls.isSupported()) {
       const video = videoRef.current;
@@ -105,7 +101,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         style={{ display: loaded ? "block" : "none" }}
         onClick={handleFullScreen}
         controls
-        // muted
+        muted
       />
       {lessonId && <VideoSpeedInfo videoSpeed={videoSpeed} />}
       {!loaded && <LoadingSpinner />}
