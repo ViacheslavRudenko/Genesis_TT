@@ -104,8 +104,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         controls
         muted
       />
-      <VideoSpeedInfo videoSpeed={videoSpeed} />
-
+      {lessonId && <VideoSpeedInfo videoSpeed={videoSpeed} />}
       {!loaded && <LoadingSpinner />}
     </Box>
   );
