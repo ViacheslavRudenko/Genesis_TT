@@ -1,6 +1,13 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Hls from "hls.js";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import {
+  FC,
+  KeyboardEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Context from "../../../context";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
@@ -8,6 +15,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+  const [videoSpeed, setVideoSpeed] = useState<number>(1);
 
   useEffect(() => {
     const savedTime = localStorage.getItem(`lesson-${lessonId}-time`);
@@ -32,6 +40,12 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     }
   }, [videoSourceUrl, lessonId]);
 
+  useEffect(() => {
+    if (videoRef.current && Hls.isSupported()) {
+      videoRef.current.playbackRate = videoSpeed;
+    }
+  }, [videoSpeed]);
+
   const handleTimeUpdate = (): void => {
     const video = videoRef.current;
     if (video && lessonId) {
@@ -43,9 +57,26 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     lessonId && setIsFullScreen(!isFullScreen);
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLVideoElement>) => {
+    const speedIncrement: number = 0.25;
+    const minSpeed: number = 0.5;
+    const maxSpeed: number = 2;
+    const { shiftKey, keyCode } = event;
+
+    if (keyCode === 65 && shiftKey) {
+      const newSpeed: number = Math.min(videoSpeed + speedIncrement, maxSpeed);
+      setVideoSpeed(newSpeed);
+    }
+    if (keyCode === 83 && shiftKey) {
+      const newSpeed: number = Math.max(videoSpeed - speedIncrement, minSpeed);
+      setVideoSpeed(newSpeed);
+    }
+  };
+
   return (
-    <>
+    <Box>
       <Box
+        onKeyDown={handleKeyDown}
         sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
         component="video"
         ref={videoRef}
@@ -54,13 +85,20 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         muted
         style={{ display: loaded ? "block" : "none" }}
         onClick={handleFullScreen}
-      ></Box>
+      />
+      <Box display="flex" justifyContent="space-between">
+        <Typography>
+          To change speed limit press "Shift + key A(up)/S(down)"
+        </Typography>
+        <Typography>Speed: x{videoSpeed}</Typography>
+      </Box>
+
       {!loaded && (
         <Box sx={styles.loadingBox}>
           <CircularProgress />
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 
