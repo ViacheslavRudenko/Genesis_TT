@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Hls from "hls.js";
 import {
   FC,
@@ -9,6 +9,8 @@ import {
   useState,
 } from "react";
 import Context from "../../../context";
+import LoadingSpinner from "../../ui/Spiner";
+import VideoSpeedInfo from "./VideoSpeedInfo";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   const { addErr } = useContext(Context);
@@ -74,7 +76,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   };
 
   return (
-    <Box>
+    <Box position="relative" minHeight="40vh">
       <Box
         onKeyDown={handleKeyDown}
         sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
@@ -86,18 +88,9 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
         style={{ display: loaded ? "block" : "none" }}
         onClick={handleFullScreen}
       />
-      <Box display="flex" justifyContent="space-between">
-        <Typography>
-          To change speed limit press "Shift + key A(up)/S(down)"
-        </Typography>
-        <Typography>Speed: x{videoSpeed}</Typography>
-      </Box>
+      <VideoSpeedInfo videoSpeed={videoSpeed} />
 
-      {!loaded && (
-        <Box sx={styles.loadingBox}>
-          <CircularProgress />
-        </Box>
-      )}
+      {!loaded && <LoadingSpinner />}
     </Box>
   );
 };
@@ -120,12 +113,6 @@ const styles = {
   fullVideoBox: {
     width: "100%",
     cursor: "zoom-out",
-  },
-  loadingBox: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
   },
 };
 
