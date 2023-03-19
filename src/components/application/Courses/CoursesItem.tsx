@@ -29,7 +29,17 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
       position="relative"
     >
       <Box
-        height={300}
+        sx={{
+          height: {
+            xs: "20vh",
+            sm: "50vh",
+            md: "30vh",
+            lg: "35vh",
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+          },
+        }}
         onMouseOver={() => setIsHover(true)}
         onMouseOut={() => setIsHover(false)}
       >

@@ -29,7 +29,7 @@ const LessonsItem: FC<LessonsItemTypes> = ({
             : styles.undeprecatedBox
         }
       >
-        <Box height={400}>
+        <Box height="auto">
           <Poster img={imgSourceUrl} />
         </Box>
         <Grid container spacing={2} pt={1}>

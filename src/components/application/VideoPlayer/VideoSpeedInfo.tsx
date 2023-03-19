@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const VideoSpeedInfo: FC<VideoSpeedInfoTypes> = ({ videoSpeed }) => {
   return (
-    <Box display="flex" justifyContent="space-between">
+    <Box display={{ xs: "none", sm: "flex" }} justifyContent="space-between">
       <Typography>
         To change speed limit press "Shift + key A(up)/S(down)"
       </Typography>

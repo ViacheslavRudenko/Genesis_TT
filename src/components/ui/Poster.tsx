@@ -16,8 +16,7 @@ const Poster: FC<PosterProps> = ({ img }) => {
       src={img}
       alt="poster-img"
       onError={setDefaultImg}
-      width="100%"
-      height="100%"
+      sx={{ maxWidth: "100%", maxHeight: "100%", margin: "auto" }}
     />
   );
 };

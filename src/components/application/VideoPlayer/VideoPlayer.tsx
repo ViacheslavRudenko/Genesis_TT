@@ -97,7 +97,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   };
 
   return (
-    <Box position="relative" minHeight={"40vh"}>
+    <Box position="relative">
       <>
         <Box
           component="video"
@@ -139,6 +139,7 @@ const styles = {
   },
   fullVideoBox: {
     width: "100%",
+    height: "auto",
     cursor: "zoom-out",
   },
 };
