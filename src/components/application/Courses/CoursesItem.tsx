@@ -1,17 +1,20 @@
 import { Box, Grid, Rating, Stack, Typography } from "@mui/material";
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 import { CourseTypes } from "../../../types/course";
 import CustomLink from "../../ui/Link";
 import List from "../../ui/List";
 import Poster from "../../ui/Poster";
+import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
 const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
+  const [isHover, setIsHover] = useState<boolean>(false);
+
   const {
     id,
     previewImageLink,
     title,
     lessonsCount,
-    meta: { skills },
+    meta: { skills, courseVideoPreview },
     rating,
   } = course;
 
@@ -25,8 +28,16 @@ const CoursesItem: FC<CoursesItemTypes> = ({ course }) => {
       p={0}
       position="relative"
     >
-      <Box height={300}>
-        <Poster img={previewImageLink + "/cover.webp"} />
+      <Box
+        height={300}
+        onMouseOver={() => setIsHover(true)}
+        onMouseOut={() => setIsHover(false)}
+      >
+        {isHover && !!courseVideoPreview?.link ? (
+          <VideoPlayer videoSourceUrl={courseVideoPreview.link} />
+        ) : (
+          <Poster img={previewImageLink + "/cover.webp"} />
+        )}
       </Box>
       <Box paddingY={2}>
         {/* Title */}

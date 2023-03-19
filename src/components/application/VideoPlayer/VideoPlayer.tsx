@@ -15,7 +15,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
     if (videoRef.current && Hls.isSupported()) {
       const video = videoRef.current;
-      const hls = new Hls({ startPosition: startTime });
+      const hls = new Hls({ startPosition: lessonId ? startTime : 0 });
       hls.loadSource(videoSourceUrl);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -34,13 +34,13 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
   const handleTimeUpdate = (): void => {
     const video = videoRef.current;
-    if (video) {
+    if (video && lessonId) {
       const currentTime = Math.floor(video.currentTime);
       localStorage.setItem(`lesson-${lessonId}-time`, `${currentTime}`);
     }
   };
   const handleFullScreen = (): void => {
-    setIsFullScreen(!isFullScreen);
+    lessonId && setIsFullScreen(!isFullScreen);
   };
 
   return (
@@ -66,7 +66,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
 type VideoPlayerTypes = {
   videoSourceUrl: string;
-  lessonId: string;
+  lessonId?: string;
 };
 
 const styles = {
@@ -88,7 +88,6 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: "50vh",
   },
 };
 

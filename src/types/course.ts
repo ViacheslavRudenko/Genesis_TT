@@ -1,7 +1,7 @@
 export type CourseVideoPreviewTypes = {
-    id: string;
-    title: string;
-    videoLink: string;
+    duration: number;
+    link: string;
+    previewImageLink: string;
 };
 
 export type MetaTypes = {
