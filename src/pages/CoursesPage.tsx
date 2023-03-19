@@ -27,7 +27,7 @@ const CoursesPage: FC = () => {
         setCourses(data.slice(startIndex, 10 + startIndex));
       })
       .catch((err: string): void => {
-        addErr(err);
+        addErr({ text: err });
       })
       .finally((): void => {
         setIsLoading(false);

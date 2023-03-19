@@ -53,7 +53,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   };
   //Func that sets fetching err
   const setVideoErr = (event: Events.ERROR, data: ErrorData): void => {
-    addErr(`${event}: ${data.type}`);
+    addErr({ text: `${event}: ${data.type}` });
   };
 
   //Func that saves the progress of watching videos and course lessons
@@ -79,12 +79,16 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
     //Shift + keyA
     if (keyCode === 65 && shiftKey) {
+      videoSpeed === maxSpeed &&
+        addErr({ text: `The maximum video speed is set`, type: "info" });
       const newSpeed: number = Math.min(videoSpeed + speedIncrement, maxSpeed);
       setVideoSpeed(newSpeed);
     }
 
     //Shift + keyS
     if (keyCode === 83 && shiftKey) {
+      videoSpeed === minSpeed &&
+        addErr({ text: `The minimum video speed is set`, type: "info" });
       const newSpeed: number = Math.max(videoSpeed - speedIncrement, minSpeed);
       setVideoSpeed(newSpeed);
     }

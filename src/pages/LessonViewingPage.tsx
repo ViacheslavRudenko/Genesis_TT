@@ -22,7 +22,7 @@ const LessonViewingPage: FC = () => {
         setCourse(data);
       })
       .catch((err: string): void => {
-        addErr(err);
+        addErr({ text: err });
       })
       .finally((): void => {
         setIsLoading(false);
