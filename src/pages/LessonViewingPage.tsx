@@ -6,7 +6,7 @@ import CourseDetails from "../components/application/Courses/CourseDetail";
 import LessonsList from "../components/application/Lesson/LessonsList";
 import LoadingSpinner from "../components/ui/Spiner";
 import VideoPlayer from "../components/application/VideoPlayer/VideoPlayer";
-import { CourseTypes, LessonTypes } from "../types/course";
+import { CourseTypes } from "../types/course";
 import Context from "../context";
 
 const LessonViewingPage: FC = () => {
@@ -14,7 +14,7 @@ const LessonViewingPage: FC = () => {
   const [course, setCourse] = useState<CourseTypes>();
   const { addErr } = useContext(Context);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [lessonVideoData, setLessonVideoData] = useState<LessonTypes>();
+  const { isPlayerOpen, playerData } = useContext(Context);
 
   useEffect(() => {
     getCourse(id)
@@ -29,10 +29,6 @@ const LessonViewingPage: FC = () => {
       });
   }, [id]);
 
-  const setLessonForVideo = (lesson: LessonTypes | undefined): void => {
-    lesson && setLessonVideoData(lesson);
-  };
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -42,21 +38,20 @@ const LessonViewingPage: FC = () => {
       {course && (
         <>
           <CourseDetails course={course} />
-          {lessonVideoData && (
+          {playerData && (
             <Box paddingY={4}>
               <Typography textAlign="center" fontWeight="bold">
-                The video of the lesson {lessonVideoData.order} is playing
+                The video of the lesson {playerData.order} is playing
               </Typography>
-              <VideoPlayer
-                videoSourceUrl={lessonVideoData.link}
-                lessonId={lessonVideoData.id}
-              />
+              {!isPlayerOpen && (
+                <VideoPlayer
+                  videoSourceUrl={playerData.link}
+                  lessonId={playerData.id}
+                />
+              )}
             </Box>
           )}
-          <LessonsList
-            lessons={course.lessons}
-            setLessonForVideo={setLessonForVideo}
-          />
+          <LessonsList lessons={course.lessons} />
         </>
       )}
     </Box>

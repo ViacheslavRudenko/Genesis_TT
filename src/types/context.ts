@@ -3,3 +3,4 @@ export type ErrorForAlertTypes = {
     type?: "error" | "warning" | "info" | "success";
 
 }
+

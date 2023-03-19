@@ -13,10 +13,10 @@ import LoadingSpinner from "../../ui/Spiner";
 import VideoSpeedInfo from "./VideoSpeedInfo";
 
 const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
-  const { addErr } = useContext(Context);
+  const { addErr, setPlayerData, isPlayerOpen, setIsPlayerOpen } =
+    useContext(Context);
   const [loaded, setLoaded] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [videoSpeed, setVideoSpeed] = useState<number>(1);
 
   useEffect(() => {
@@ -25,7 +25,9 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
     if (videoRef.current && Hls.isSupported()) {
       const video = videoRef.current;
-      const hls = new Hls({ startPosition: lessonId ? startTime : 0 });
+      const hls = new Hls({
+        startPosition: lessonId ? startTime : 0,
+      });
       hls.loadSource(videoSourceUrl);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, startVideoToPlay);
@@ -67,7 +69,7 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
 
   // Func that opens full screen or picture in pictire
   const handleFullScreen = (): void => {
-    lessonId && setIsFullScreen(!isFullScreen);
+    setIsPlayerOpen(!isPlayerOpen);
   };
 
   // Func that which changes the playback speed of the video
@@ -95,19 +97,26 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   };
 
   return (
-    <Box position="relative" minHeight="40vh">
-      <Box
-        component="video"
-        ref={videoRef}
-        onKeyDown={handleKeyDown}
-        sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
-        onTimeUpdate={handleTimeUpdate}
-        style={{ display: loaded ? "block" : "none" }}
-        onClick={handleFullScreen}
-        controls
-        muted
-      />
-      {lessonId && <VideoSpeedInfo videoSpeed={videoSpeed} />}
+    <Box position="relative" minHeight={"40vh"}>
+      <>
+        <Box
+          component="video"
+          ref={videoRef}
+          onKeyDown={handleKeyDown}
+          sx={isPlayerOpen ? styles.smallVideoBox : styles.fullVideoBox}
+          onTimeUpdate={handleTimeUpdate}
+          style={{
+            display: loaded ? "block" : "none",
+          }}
+          onClick={handleFullScreen}
+          controls
+          muted
+        />
+        {lessonId && !isPlayerOpen && (
+          <VideoSpeedInfo videoSpeed={videoSpeed} />
+        )}
+      </>
+
       {!loaded && <LoadingSpinner />}
     </Box>
   );
