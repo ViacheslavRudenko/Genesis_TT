@@ -22,10 +22,6 @@ const App: FC = () => {
     return () => clearInterval(intervalId);
   }, [err]);
 
-  useEffect(() => {
-    console.log(playerData);
-  }, [playerData]);
-
   const addErr = (error: ErrorForAlertTypes): void => {
     setErr([error, ...err]);
   };
