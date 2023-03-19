@@ -29,13 +29,10 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
       hls.loadSource(videoSourceUrl);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.addEventListener("canplaythrough", () => {
-          video.play();
-          setLoaded(true);
-        });
+        startVideoToPlay(video);
       });
       hls.on(Hls.Events.ERROR, (name, data) => {
-        addErr(`${name}: ${data.type}`);
+        setVideoErr(name, data.type);
       });
     } else if (videoRef.current?.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = videoSourceUrl;
@@ -48,6 +45,19 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
     }
   }, [videoSpeed]);
 
+  //Func that starts video
+  const startVideoToPlay = (video: HTMLVideoElement): void => {
+    video.addEventListener("canplaythrough", () => {
+      video.play();
+      setLoaded(true);
+    });
+  };
+  //Func that sets fetching err
+  const setVideoErr = (name: string, err: string): void => {
+    addErr(`${name}: ${err}`);
+  };
+
+  //Func that saves the progress of watching videos and course lessons
   const handleTimeUpdate = (): void => {
     const video = videoRef.current;
     if (video && lessonId) {
@@ -55,20 +65,26 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
       localStorage.setItem(`lesson-${lessonId}-time`, `${currentTime}`);
     }
   };
+
+  // Func that opens full screen or picture in pictire
   const handleFullScreen = (): void => {
     lessonId && setIsFullScreen(!isFullScreen);
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLVideoElement>) => {
+  // Func that which changes the playback speed of the video
+  const handleKeyDown = (event: KeyboardEvent<HTMLVideoElement>): void => {
     const speedIncrement: number = 0.25;
     const minSpeed: number = 0.5;
     const maxSpeed: number = 2;
     const { shiftKey, keyCode } = event;
 
+    //Shift + keyA
     if (keyCode === 65 && shiftKey) {
       const newSpeed: number = Math.min(videoSpeed + speedIncrement, maxSpeed);
       setVideoSpeed(newSpeed);
     }
+
+    //Shift + keyS
     if (keyCode === 83 && shiftKey) {
       const newSpeed: number = Math.max(videoSpeed - speedIncrement, minSpeed);
       setVideoSpeed(newSpeed);
@@ -78,15 +94,15 @@ const VideoPlayer: FC<VideoPlayerTypes> = ({ videoSourceUrl, lessonId }) => {
   return (
     <Box position="relative" minHeight="40vh">
       <Box
-        onKeyDown={handleKeyDown}
-        sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
         component="video"
         ref={videoRef}
+        onKeyDown={handleKeyDown}
+        sx={isFullScreen ? styles.smallVideoBox : styles.fullVideoBox}
         onTimeUpdate={handleTimeUpdate}
-        controls
-        muted
         style={{ display: loaded ? "block" : "none" }}
         onClick={handleFullScreen}
+        controls
+        muted
       />
       <VideoSpeedInfo videoSpeed={videoSpeed} />
 
